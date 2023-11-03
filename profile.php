@@ -35,7 +35,7 @@ if(isset($_POST['save_button']))
   	}
 }
 
-if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') 
+if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin' && 'user') 
 {
   	header('Location: logout.php');
   	exit();

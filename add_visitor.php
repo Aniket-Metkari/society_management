@@ -17,6 +17,7 @@ if(isset($_POST['add_visitor']))
     $person_to_meet = trim($_POST['person_to_meet']);
     $reason = trim($_POST['reason']);
     $in_datetime = trim($_POST['in_datetime']);
+    
 
     // Validate form fields
     if (empty($flat_id)) {
@@ -102,20 +103,34 @@ include('header.php');
 				<form method="post">
 				  	<div class="mb-3">
 					    <label for="flat_id">Flat Number</label>
-					    <select id="flat_id" name="flat_id" class="form-control">
-					    	<option value="">Select Flat</option>
+						<select name="flat_id" class="form-control">
+				    		<option value="">Select Flat Number</option>
+				    		<?php 
+							$sql = "SELECT id, flat_number, block_number FROM flats ORDER BY id ASC";
+
+							$stmt = $pdo->prepare($sql);
+							
+							$stmt->execute();
+							
+							$flats_result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+							foreach($flats_result as $flat): ?>
+				    		<option value="<?php echo $flat['id']; ?>"><?php echo $flat['block_number'] . ' - ' . $flat['flat_number']; ?></option>
+				    		<?php endforeach; ?>
+				    	</select>
+					    <!-- <select id="flat_id" name="flat_id" class="form-control">
+					    	<option value="">Select Flat</option> -->
 						    <?php
 						      	// Query to get flat numbers from flats table
-						    	$stmt = $pdo->prepare('SELECT id, flat_number, block_number FROM flats ORDER BY flat_number ASC');
-								$stmt->execute([$_SESSION['user_id']]);
-								$flats_result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-						      	foreach($flats_result as $flat)
-						      	{
-						        	echo "<option value=\"" . $flat['id'] . "\">" . $flat['block_number'] . ' - ' . $flat['flat_number'] . "</option>";
-						      	}
+						    	// $stmt = $pdo->prepare('SELECT id, flat_number, block_number FROM flats ORDER BY flat_number ASC');
+								// $stmt->execute([$_SESSION['user_id']]);
+								// $flats_result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+						      	// foreach($flats_result as $flat)
+						      	// {
+						        // 	echo "<option value=\"" . $flat['id'] . "\">" . $flat['block_number'] . ' - ' . $flat['flat_number'] . "</option>";
+						      	// }
 						    ?>
 							
-					    </select>
+					    <!-- </select> -->
 				  	</div>
 							
 					<div class="mb-3">
@@ -142,7 +157,7 @@ include('header.php');
 				    	<label for="in_datetime">In Date/Time</label>
 				    	<input type="datetime-local" id="in_datetime" name="in_datetime" class="form-control">
 				  	</div>
-				  	<button type="submit" name="add_visitor" class="btn btn-primary">Add Visitor</button>
+				  	<center><button type="submit" name="add_visitor" class="btn btn-primary" style="background-color:green;">Add Visitor</button></center>
 				</form>
 			</div>
 		</div>

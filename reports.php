@@ -550,7 +550,7 @@ include('header.php');
 				    	<input type="date" id="end_date" name="end_date" class="form-control" value="<?php echo $end_date; ?>">
 				    </div>
 				    <div class="col-md-3">
-				    	<button type="submit" name="generate_report" class="btn btn-primary mt-4">Generate Report</button>
+				    	<button type="submit" name="generate_report" class="btn btn-primary mt-4" style="background-color:green">Generate Report</button>
 				    </div>
 				</div>
 			</form>

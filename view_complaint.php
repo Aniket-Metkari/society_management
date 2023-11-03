@@ -231,7 +231,7 @@ include('header.php');
 						<input type="hidden" name="id" value="<?php echo isset($complaint['id']) ? $complaint['id'] : ''; ?>" />
 						<input type="hidden" name="hidden_description" value="<?php echo isset($complaint['description']) ? $complaint['description'] : ''; ?>" />
 						<input type="hidden" name="hidden_user_id" value="<?php echo isset($complaint['user_id']) ? $complaint['user_id'] : ''; ?>" />
-						<input type="submit" name="process_complaint" class="btn btn-primary" value="Submit" />
+						<center><input type="submit" name="process_complaint" class="btn btn-primary" value="Submit" style="background-color:green;"/></center>
 					</div>
 				</form>
 

@@ -128,7 +128,7 @@ include('header.php');
 				    		<div class="col-md-7"><?php echo (isset($bill['month'])) ? $bill['month'] : ''; ?></div>
 				    	</div>
 				    	<div class="row">
-				    		<div class="col-md-5"><b>Bill Amounth</b></div>
+				    		<div class="col-md-5"><b>Bill Amount</b></div>
 				    		<div class="col-md-7"><?php echo (isset($bill['amount'])) ? $bill['amount'] : ''; ?></div>
 				    	</div>
 				  	
@@ -165,7 +165,7 @@ include('header.php');
 				  	</div>
 				  	<div class="mb-3">
 				    	<label for="amount">Paid Bill Amount</label>
-				    	<input type="number" id="paid_amount" name="paid_amount" class="form-control" step="0.01" value="">
+						<input type="number" id="paid_amount" name="paid_amount" class="form-control" step="0.01" value="<?php echo (isset($bill['amount'])) ? $bill['amount'] : ''; ?>" readonly>
 				  	</div>
                     
 					<label for="month">Payment Method</label>

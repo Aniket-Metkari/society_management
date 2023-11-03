@@ -91,13 +91,13 @@ $notification = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <a class="nav-link" href="bills.php">
                             Bills
                         </a>
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="complaints.php">
                             Complaints
                         </a>
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="visitors.php">
                             Visitors
                         </a>
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="reports.php">
                             Reports
                         </a>
                         <a class="nav-link" href="profile.php">
@@ -112,15 +112,15 @@ $notification = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <a class="nav-link" href="bills.php">
                             Bills
                         </a>
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="complaints.php">
                             Complaints
                         </a>
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="visitors.php">
                             Visitors
                         </a>
-                        <a class="nav-link" href="profile.php">
+                        <!-- <a class="nav-link" href="profile.php">
                             Profile
-                        </a>
+                        </a> -->
                         <?php
                         }
                         ?>

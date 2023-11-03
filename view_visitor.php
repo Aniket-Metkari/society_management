@@ -129,7 +129,7 @@ include('header.php');
 				    	<textarea id="out_remark" name="out_remark" class="form-control"></textarea>
 				  	</div>
 				  	<input type="hidden" name="id" value="<?php echo $visitor['id']; ?>" />
-				  	<button type="submit" name="out_visitor" class="btn btn-primary">Submit</button>
+				  	<center><button type="submit" name="out_visitor" class="btn btn-primary" style="background-color:green;">Submit</button></center>
 				</form>
 				<?php
 				}

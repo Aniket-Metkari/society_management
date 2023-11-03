@@ -112,17 +112,31 @@ include('header.php');
 				<form method="post">
 				  	<div class="mb-3">
 					    <label for="flat_id">Flat Number</label>
-					    <select id="flat_id" name="flat_id" class="form-control">
-					    	<option value="">Select Flat</option>
+						<select name="flat_id" class="form-control">
+				    		<option value="">Select Flat Number</option>
+				    		<?php 
+							$sql = "SELECT id, flat_number, block_number FROM flats ORDER BY id ASC";
+
+							$stmt = $pdo->prepare($sql);
+							
+							$stmt->execute();
+							
+							$flats_result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+							foreach($flats_result as $flat): ?>
+				    		<option value="<?php echo $flat['id']; ?>"><?php echo $flat['block_number'] . ' - ' . $flat['flat_number']; ?></option>
+				    		<?php endforeach; ?>
+				    	</select>
+					    <!-- <select id="flat_id" name="flat_id" class="form-control">
+					    	<option value="">Select Flat</option> -->
 						    <?php
 						      	// Query to get flat numbers from flats table
-						    	$stmt = $pdo->prepare('SELECT id, flat_number, block_number FROM flats ORDER BY flat_number ASC');
-								$stmt->execute([$_SESSION['user_id']]);
-								$flats_result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-						      	foreach($flats_result as $flat)
-						      	{
-						        	echo "<option value=\"" . $flat['id'] . "\">" . $flat['block_number'] . ' - ' . $flat['flat_number'] . "</option>";
-						      	}
+						    	// $stmt = $pdo->prepare('SELECT id, flat_number, block_number FROM flats ORDER BY flat_number ASC');
+								// $stmt->execute([$_SESSION['user_id']]);
+								// $flats_result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+						      	// foreach($flats_result as $flat)
+						      	// {
+						        // 	echo "<option value=\"" . $flat['id'] . "\">" . $flat['block_number'] . ' - ' . $flat['flat_number'] . "</option>";
+						      	// }
 						    ?>
 					    </select>
 				  	</div>
@@ -151,7 +165,7 @@ include('header.php');
 				    	<input type="datetime-local" id="in_datetime" name="in_datetime" class="form-control" value="<?php echo (isset($visitor['in_datetime'])) ? $visitor['in_datetime'] : ''; ?>">
 				  	</div>
 				  	<input type="hidden" name="id" value="<?php echo (isset($visitor['id'])) ? $visitor['id'] : ''; ?>" />
-				  	<button type="submit" name="edit_visitor" class="btn btn-primary">Edit Visitor</button>
+				  	<center><button type="submit" name="edit_visitor" class="btn btn-primary" style="background-color:green;">Edit Visitor</button></center>
 				  	<script>
 				  		$('#flat_id').val('<?php echo (isset($visitor['flat_id'])) ? $visitor['flat_id'] : ''; ?>')
 				  	</script>

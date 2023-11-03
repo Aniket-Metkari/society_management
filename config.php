@@ -1,8 +1,7 @@
 <?php
-session_start();
 // Define the database connection settings
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'societymanagement');
+define('DB_NAME', 'societysystem');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 
@@ -39,7 +38,7 @@ if (!$table_exists)
 
 date_default_timezone_set("Asia/Calcutta");
 
-// session_start();
+session_start();
 
 $type = array('1 BHK Flat', '2 BHK Flat', '3 BHK Flat', '4 BHK Flat', '5 BHK Flat', 'Penthouse', 'Row House', 'Tenament', 'Duplex', 'Villa', 'Shop');
 

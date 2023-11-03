@@ -1,10 +1,72 @@
 <?php
+// session_start();
+?>
+<?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer.php';
+require 'SMTP.php';
+require 'Exception.php';
+// require 'connection.php';
+// Generate a random 6-digit OTP
+function generateOTP() {
+    return rand(100000, 999999);
+
+
+}
+
+// Send the OTP via email or SMS
+function sendOTP($email, $otp) {
+    // Implement your code to send the OTP via email or SMS here
+    $mail = new PHPMailer(true);
+
+    try {
+    // SMTP configuration
+      $mail->isSMTP();
+      $mail->Host = 'smtp.gmail.com';
+      $mail->Port = 587;
+      $mail->SMTPSecure = 'tls';
+      $mail->SMTPAuth = true;
+      $mail->AuthType = 'LOGIN';
+      $mail->Username = 'aniketmetkari14@gmail.com';
+      $mail->Password = 'kfzpkfpxobmxivcu';
+
+    // Set the sender and recipient
+      $mail->setFrom('aniketmetkari14@gmail.com', 'Society Management System');
+      $mail->addAddress($email, 'Dear User');
+
+    // Set email content
+      $mail->Subject = 'Your Otp for Society Management System ';
+      $mail->Body = $otp;
+      
+    // Send the email
+      $mail->send();
+      
+    //   $sql = "INSERT INTO `verify_otp`(`otp`, `email`) VALUES ($otp,$email)";
+    //   $pdo->prepare($sql)->execute();
+    //   $stmt = $pdo->prepare("INSERT INTO verify_otp (otp, email) VALUES ($otp, $email)");
+
+	//   $stmt->execute();
+
+      echo 'OTP sent successfully';
+  } catch (Exception $e) {
+    echo 'OTP could not be sent. Error: ', $mail->ErrorInfo;
+  }
+      // For demonstration purposes, we'll just display it
+    // echo "Your OTP: " . $otp;
+  }
+  ?>
+
+
+
+<?php
 
 // Check if the system setup is complete
 
 require_once 'config.php';
 
-if (isset($_SESSION['user_id'])) 
+if (isset($_SESSION['userid'])) 
 {
     header('Location: dashboard.php');
     exit();
@@ -46,24 +108,41 @@ if(isset($_POST['btn_login']))
         // If the user exists, retrieve their password hash from the database
         if ($user) 
         {
+            
             $passwordHash = $user['password'];
 
             // Use the password_verify function to check if the entered password matches the password hash
             if (password_verify($password, $passwordHash)) 
             {
+                $otp = generateOTP();
+                sendOTP($email, $otp);
+                // $sql = "UPDATE `users` SET `otp`='$otp' WHERE 'email'='$email'";
+                // // $sql = "INSERT INTO `users` (`otp`) VALUES ('$otp') where 'email'='$email'";
+                $sql = "UPDATE `verify_otp` SET `otp`='$otp' where `email`='$email'";
+                $result = $pdo->query($sql);
+         
+                if($result){
+          
+                $_SESSION['emaill']=$_POST['email'];
+                $_SESSION['password'] = $_POST['password'];
+                $_SESSION['otp'] = $otp;
                 // Password is correct, log the user in
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['user_role'] = $user['role'];
-                $_SESSION['user_name'] = $user['name'];
-                if($user['role'] == 'user')
-                {
-                    header('Location: bills.php');
+                $_SESSION['userid'] = $user['id'];
+                $_SESSION['userrole'] = $user['role'];
+                $_SESSION['username'] = $user['name'];
+
+                header("Location: verify.php");
+                // echo $_SESSION['emaill'];
                 }
-                else
-                {
-                    header('Location: dashboard.php');
-                }
-                exit;
+                // if($user['role'] == 'user')
+                // {
+                //     header('Location: bills.php');
+                // }
+                // else
+                // {
+                //     header('Location: dashboard.php');
+                // }
+                // exit;
             } 
             else
             {
@@ -74,68 +153,13 @@ if(isset($_POST['btn_login']))
         else 
         {
             // User not found, show an error message
-            $errors[] = "email not found in database";
+            $errors[] = "email not found";
         }
     }
 }
 
 ?>
 
-<!-- <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Society Management System</title> -->
-        <!-- Load Bootstrap 5 CSS -->
-        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-    </head>
-    <body style="background-color:grey">
-        <div class="container" style="background-color:;">
-            <div class="mt-5" style="">
-                <h1 class="text-center" style="background-color:">Society Management System</h1>
-                <div class="row justify-content-center" >
-                    <div class="col-md-6 col-lg-4 mt-5"> -->
-                        <?php
-                            
-                        if(isset($errors))
-                        {
-                            foreach ($errors as $error) 
-                            {
-                                echo "<div class='alert alert-danger'>$error</div>";
-                            }
-                        }
-                        ?>
-<!--                         
-                        <div class="card">
-                            <div class="card-header" style="background-color:">
-                                <h3 class="card-title text-center">Login</h3>
-                            </div>
-                            <div class="card-body">                             -->
-                            <!-- Login form -->
-                            <!-- <form id="login-form" method="post">
-                                <div class="mb-3">
-                                    <label for="email" class="form-label" >Email</label>
-                                    <input type="email" class="form-control" id="email" name="email">
-                                    <div class="invalid-feedback">Please enter a valid email address.</div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password">
-                                    <div class="invalid-feedback">Please enter a password.</div>
-                                </div>
-                                <center><button type="submit" name="btn_login" class="btn btn-primary" style="background-color:green;">Login</button></center>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-        <!-- Load Bootstrap 5 JS -->
-        <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        
-    </body>
-</html> -->
 
 <!DOCTYPE html>
 <html lang="en">
